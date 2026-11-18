@@ -1,0 +1,4 @@
+<resources>
+    <!-- 0.8.6: distinct launcher name so both editions can sit side by side. -->
+    <string name="app_name">Aurora Unlocked</string>
+</resources>

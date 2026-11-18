@@ -1,0 +1,26 @@
+# Build output
+build/
+.gradle/
+.kotlin/
+.cxx/
+out/
+*.iml
+.idea/
+captures/
+
+# Local machine config and secrets (never commit)
+local.properties
+keystore.properties
+*.jks
+*.keystore
+
+# Big binaries
+*.apk
+*.aab
+*.gguf
+
+# Fetched by scripts/fetch_deps (see third_party/README.md)
+third_party/llama.cpp/
+third_party/voice-assets/
+third_party/*.aar
+third_party/*.zip

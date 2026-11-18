@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 0.6: only cache/share (exported companion packs) and cache/updates (0.8.6 updates) are shared. -->
+<paths>
+    <cache-path name="share" path="share/" />
+    <!-- 0.8.6: verified update APK handed to the system installer. -->
+    <cache-path name="updates" path="updates/" />
+</paths>

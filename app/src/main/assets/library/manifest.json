@@ -1,0 +1,1094 @@
+{
+ "source": "https://github.com/robertlionhart-cyber/aurora-companion-beta (knowledge/)",
+ "commit": "1360d4edbcdbaf3ef7d72171ffec5f57035ee579",
+ "base_url": "https://raw.githubusercontent.com/robertlionhart-cyber/aurora-companion-beta/1360d4edbcdbaf3ef7d72171ffec5f57035ee579/knowledge/",
+ "books": [
+  {
+   "file": "aeschylus_oresteia.txt",
+   "title": "The Agamemnon of Aeschylus (Oresteia)",
+   "author": "Aeschylus",
+   "bytes": 140966,
+   "sha1": "d1e7d8377f09b1f10629b003185b47575e72e394",
+   "gutenberg": 14417,
+   "category": "Literature & myth",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "american_history_sourcebook_to_1787.txt",
+   "title": "A Source Book in American History to 1787",
+   "author": "",
+   "bytes": 1253565,
+   "sha1": "8e6ed17f1d902b7a872a35cd1b272d026576c350",
+   "gutenberg": 45757,
+   "category": "History",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "arabian_nights_vol1.txt",
+   "title": "The Thousand Nights and a Night, Volume 1",
+   "author": "Richard F. Burton (trans.)",
+   "bytes": 966038,
+   "sha1": "f56c0912e8cca28f92166469ab44c56fe9b0a1da",
+   "gutenberg": 3435,
+   "category": "Literature & myth",
+   "aliases": [
+    "arabian nights",
+    "thousand nights",
+    "scheherazade"
+   ],
+   "adult": false
+  },
+  {
+   "file": "aristotle_nicomachean_ethics.txt",
+   "title": "Nicomachean Ethics",
+   "author": "Aristotle",
+   "bytes": 659336,
+   "sha1": "fee97d7a0bc80de4222a7f0df0865b5eea78a6b6",
+   "gutenberg": 8438,
+   "category": "Philosophy",
+   "aliases": [
+    "aristotle",
+    "nicomachean"
+   ],
+   "adult": false
+  },
+  {
+   "file": "arrian_alexander.txt",
+   "title": "The Anabasis of Alexander",
+   "author": "Arrian",
+   "bytes": 901421,
+   "sha1": "6e2d2d40a124977c05dc39d79f49a64271b8118c",
+   "gutenberg": 46976,
+   "category": "History",
+   "aliases": [
+    "alexander the great",
+    "arrian"
+   ],
+   "adult": false
+  },
+  {
+   "file": "art_of_war.txt",
+   "title": "The Art of War",
+   "author": "Sun Tzu",
+   "bytes": 334964,
+   "sha1": "c87c97aa62ee800c4752953a8cfd5ddfed4d9b3e",
+   "gutenberg": 132,
+   "category": "Philosophy",
+   "aliases": [
+    "sun tzu",
+    "art of war"
+   ],
+   "adult": false
+  },
+  {
+   "file": "bacon_essays.txt",
+   "title": "Bacon's Essays",
+   "author": "Francis Bacon",
+   "bytes": 318850,
+   "sha1": "ee7645d8b18f1ad957a23a770be2accd915f7747",
+   "gutenberg": 575,
+   "category": "Philosophy",
+   "aliases": [
+    "francis bacon"
+   ],
+   "adult": false
+  },
+  {
+   "file": "baden_powell_scouting_for_girls.txt",
+   "title": "Scouting for Girls",
+   "author": "Robert Baden-Powell",
+   "bytes": 346690,
+   "sha1": "b58b7f6d4e843706860b76d59d10bd63158c05de",
+   "gutenberg": 52506,
+   "category": "Outdoors & first aid",
+   "aliases": [
+    "girl scout",
+    "scouting for girls"
+   ],
+   "adult": false
+  },
+  {
+   "file": "bailey_manual_of_gardening.txt",
+   "title": "Manual of Gardening (Second Edition)",
+   "author": "L. H. Bailey",
+   "bytes": 964047,
+   "sha1": "0a1c8092bfe5768348fd9af95709c6d818649139",
+   "gutenberg": 9550,
+   "category": "Gardening & herbs",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "beowulf.txt",
+   "title": "Beowulf",
+   "author": "Anonymous",
+   "bytes": 293473,
+   "sha1": "de82d2af6262a0539bae11ce9ca406c427843483",
+   "gutenberg": 16328,
+   "category": "Literature & myth",
+   "aliases": [
+    "beowulf",
+    "grendel"
+   ],
+   "adult": false
+  },
+  {
+   "file": "bhagavad_gita.txt",
+   "title": "The Bhagavad Gita (The Song Celestial)",
+   "author": "",
+   "bytes": 143812,
+   "sha1": "c7fd1056edf92e594476d17d4fdffedffd0426bd",
+   "gutenberg": 2388,
+   "category": "Religion & spirituality",
+   "aliases": [
+    "bhagavad gita",
+    "gita",
+    "krishna"
+   ],
+   "adult": false
+  },
+  {
+   "file": "book_of_mormon.txt",
+   "title": "The Book of Mormon",
+   "author": "Joseph Smith Jr.",
+   "bytes": 1487346,
+   "sha1": "b74b8c8df876913538df89ce9e8c68c5f6ce2a6a",
+   "gutenberg": 17,
+   "category": "Religion & spirituality",
+   "aliases": [
+    "book of mormon"
+   ],
+   "adult": false
+  },
+  {
+   "file": "boy_scout_handbook_1911.txt",
+   "title": "Boy Scouts Handbook",
+   "author": "Boy Scouts of America",
+   "bytes": 765728,
+   "sha1": "d577e2b21efa885fb73f2e2353053ed68ac6236c",
+   "gutenberg": 29558,
+   "category": "Outdoors & first aid",
+   "aliases": [
+    "boy scout",
+    "scout handbook",
+    "scouting"
+   ],
+   "adult": false
+  },
+  {
+   "file": "burgess_the_purple_cow.txt",
+   "title": "The Purple Cow!",
+   "author": "Gelett Burgess",
+   "bytes": 46116,
+   "sha1": "bcd9ab93d68a4c686a1a3019793305a407d163c8",
+   "gutenberg": 30656,
+   "category": "Literature & myth",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "busy_womans_garden_book.txt",
+   "title": "The Busy Woman's Garden Book",
+   "author": "Ida D. Bennett",
+   "bytes": 362644,
+   "sha1": "f6b4d82b59e4b6ebe47c6255b8d6602e60d2bf25",
+   "gutenberg": 56001,
+   "category": "Gardening & herbs",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "confucius_analects.txt",
+   "title": "The Analects of Confucius",
+   "author": "Confucius",
+   "bytes": 188102,
+   "sha1": "9184109ebc801b7149bab6206e7cafa7d1510e81",
+   "gutenberg": 3330,
+   "category": "Religion & spirituality",
+   "aliases": [
+    "confucius",
+    "analects"
+   ],
+   "adult": false
+  },
+  {
+   "file": "culpeper_complete_herbal.txt",
+   "title": "The Complete Herbal",
+   "author": "Nicholas Culpeper",
+   "bytes": 1499481,
+   "sha1": "4e0046cb2afb4195c557a27ca76b06f36db594c1",
+   "gutenberg": 49513,
+   "category": "Gardening & herbs",
+   "aliases": [
+    "herbal",
+    "culpeper",
+    "herbs"
+   ],
+   "adult": false
+  },
+  {
+   "file": "dan_beard_camp_lore.txt",
+   "title": "The Book of Camp-Lore and Woodcraft",
+   "author": "Daniel Carter Beard",
+   "bytes": 326838,
+   "sha1": "96c696ba4ec629777dc0dca14d8caf9550174835",
+   "gutenberg": 44215,
+   "category": "Outdoors & first aid",
+   "aliases": [
+    "camp lore",
+    "camp-lore",
+    "dan beard"
+   ],
+   "adult": false
+  },
+  {
+   "file": "dante_divine_comedy.txt",
+   "title": "The Divine Comedy",
+   "author": "Dante Alighieri",
+   "bytes": 640728,
+   "sha1": "65ba94b8aa5d9244c07f11927adc4ad4df5e3f4b",
+   "gutenberg": 8800,
+   "category": "Literature & myth",
+   "aliases": [
+    "divine comedy",
+    "dante",
+    "inferno"
+   ],
+   "adult": false
+  },
+  {
+   "file": "darwin_origin_of_species.txt",
+   "title": "On the Origin of Species",
+   "author": "Charles Darwin",
+   "bytes": 954038,
+   "sha1": "0dce4071397e6f3504ac27bfcf4188d5c80ca8ed",
+   "gutenberg": 1228,
+   "category": "Science & how-to",
+   "aliases": [
+    "origin of species",
+    "darwin",
+    "natural selection",
+    "evolution"
+   ],
+   "adult": false
+  },
+  {
+   "file": "descartes_discourse.txt",
+   "title": "Discourse on the Method",
+   "author": "René Descartes",
+   "bytes": 148208,
+   "sha1": "68e9ac5db874528dfa23d38589b043bf1a3d2b8f",
+   "gutenberg": 59,
+   "category": "Philosophy",
+   "aliases": [
+    "descartes"
+   ],
+   "adult": false
+  },
+  {
+   "file": "don_quixote.txt",
+   "title": "Don Quixote",
+   "author": "Miguel de Cervantes Saavedra",
+   "bytes": 2348389,
+   "sha1": "a8490fb265365ba960bdbff170deaa2b527958df",
+   "gutenberg": 996,
+   "category": "Literature & myth",
+   "aliases": [
+    "don quixote",
+    "cervantes"
+   ],
+   "adult": false
+  },
+  {
+   "file": "electricity_everyday_uses.txt",
+   "title": "Electricity and Its Everyday Uses",
+   "author": "John F. Woodhull",
+   "bytes": 402964,
+   "sha1": "e3cc7cacea6b1b9916a186b81e557ade59843987",
+   "gutenberg": 45331,
+   "category": "Science & how-to",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "electricity_mccormick.txt",
+   "title": "Electricity",
+   "author": "W. H. McCormick",
+   "bytes": 513532,
+   "sha1": "6fb2ce4d6d58103959f28294599eeeccad5922b7",
+   "gutenberg": 72062,
+   "category": "Science & how-to",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "epic_of_gilgamesh.txt",
+   "title": "The Epic of Gilgamesh",
+   "author": "Stephen Langdon",
+   "bytes": 58262,
+   "sha1": "4bf1c6d5f4118c8522e7c5d9fdb5c3db8ce44f66",
+   "gutenberg": 18897,
+   "category": "Literature & myth",
+   "aliases": [
+    "gilgamesh"
+   ],
+   "adult": false
+  },
+  {
+   "file": "epictetus_enchiridion.txt",
+   "title": "The Enchiridion",
+   "author": "Epictetus",
+   "bytes": 89932,
+   "sha1": "b1e89a9f0c9348edb9ff10bcc7314c54087e67b5",
+   "gutenberg": 45109,
+   "category": "Philosophy",
+   "aliases": [
+    "epictetus",
+    "enchiridion"
+   ],
+   "adult": false
+  },
+  {
+   "file": "epictetus_enchiridion_discourses.txt",
+   "title": "A Selection from the Discourses of Epictetus with the Encheiridion",
+   "author": "Epictetus",
+   "bytes": 346167,
+   "sha1": "d1672d4b6b59e93d13eea76f7329f33d5fac3dae",
+   "gutenberg": 10661,
+   "category": "Philosophy",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "faraday_electricity.txt",
+   "title": "Experimental Researches in Electricity, Volume 1",
+   "author": "Michael Faraday",
+   "bytes": 1405241,
+   "sha1": "2ef9ec077de7f61c18f60c74d0e618ad7156c453",
+   "gutenberg": 14986,
+   "category": "Science & how-to",
+   "aliases": [
+    "faraday"
+   ],
+   "adult": false
+  },
+  {
+   "file": "frankenstein.txt",
+   "title": "Frankenstein",
+   "author": "Mary Wollstonecraft Shelley",
+   "bytes": 441144,
+   "sha1": "fba91c94e84f037674de54a8cebea7dadc4f0cf6",
+   "gutenberg": 84,
+   "category": "Literature & myth",
+   "aliases": [
+    "frankenstein"
+   ],
+   "adult": false
+  },
+  {
+   "file": "galileo_two_new_sciences.txt",
+   "title": "Galileo: Discourse on Bodies in Water",
+   "author": "Galileo Galilei",
+   "bytes": 243751,
+   "sha1": "eb95a8ae5496d3dd1a6f0277dfc120a0e536b6a6",
+   "gutenberg": 37729,
+   "category": "Science & how-to",
+   "aliases": [
+    "galileo"
+   ],
+   "adult": false
+  },
+  {
+   "file": "gardening_for_ladies.txt",
+   "title": "Instructions in Gardening for Ladies",
+   "author": "Mrs. Loudon",
+   "bytes": 454210,
+   "sha1": "bbaef1b04a1ced979954ee2603b1aed7ab5eff23",
+   "gutenberg": 74201,
+   "category": "Gardening & herbs",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "gas_oil_steam_engines_rathbun.txt",
+   "title": "Practical Hand Book of Gas, Oil and Steam Engines",
+   "author": "John B. Rathbun",
+   "bytes": 742327,
+   "sha1": "6679dafd4680f896a7b870433cb640a667e0935e",
+   "gutenberg": 56776,
+   "category": "Science & how-to",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "handerson_gilbertus_anglicus.txt",
+   "title": "Gilbertus Anglicus: Medicine of the Thirteenth Century",
+   "author": "Henry E. Handerson",
+   "bytes": 188392,
+   "sha1": "d44c0779abb85cd001f2834c4c78e3bacc44c337",
+   "gutenberg": 16155,
+   "category": "Science & how-to",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "harpers_electricity_book.txt",
+   "title": "Harper's Electricity Book for Boys",
+   "author": "Joseph H. Adams",
+   "bytes": 636319,
+   "sha1": "11c4138abde5ac0c924ba1f79feeb0355c92a7f7",
+   "gutenberg": 64592,
+   "category": "Science & how-to",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "herodotus_histories.txt",
+   "title": "The Histories of Herodotus, Volume 1",
+   "author": "Herodotus",
+   "bytes": 900547,
+   "sha1": "bd8c9ee5d2fe8977ae3355b7c803aabe11f7e678",
+   "gutenberg": 2707,
+   "category": "History",
+   "aliases": [
+    "herodotus"
+   ],
+   "adult": false
+  },
+  {
+   "file": "hesiod_homeric_hymns.txt",
+   "title": "Hesiod and the Homeric Hymns",
+   "author": "Hesiod",
+   "bytes": 537502,
+   "sha1": "20de40e756d50319ac96201f4cd54ce9d010deca",
+   "gutenberg": 348,
+   "category": "Literature & myth",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "history_of_the_united_states.txt",
+   "title": "History of the United States",
+   "author": "John Clark Ridpath",
+   "bytes": 693567,
+   "sha1": "d420582a0103f745997ac65e9b2d3fd144f65a76",
+   "gutenberg": 53019,
+   "category": "History",
+   "aliases": [
+    "history of the united states"
+   ],
+   "adult": false
+  },
+  {
+   "file": "history_us_one_syllable.txt",
+   "title": "History of the United States in Words of One Syllable",
+   "author": "Helen Wall Pierson",
+   "bytes": 164765,
+   "sha1": "64c3fcab9b614b9fb6a006c7a4012b625b3f36e0",
+   "gutenberg": 54798,
+   "category": "History",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "hobbes_leviathan.txt",
+   "title": "Leviathan",
+   "author": "Thomas Hobbes",
+   "bytes": 1231936,
+   "sha1": "d322c2a71ac5a2007bf8fb6e64e3b078639d8a6b",
+   "gutenberg": 3207,
+   "category": "Philosophy",
+   "aliases": [
+    "leviathan",
+    "hobbes"
+   ],
+   "adult": false
+  },
+  {
+   "file": "homer_iliad.txt",
+   "title": "The Iliad",
+   "author": "Homer",
+   "bytes": 1135313,
+   "sha1": "2eadff81180384635e4900210ebb3ab1a2ac2382",
+   "gutenberg": 6130,
+   "category": "Literature & myth",
+   "aliases": [
+    "iliad",
+    "achilles"
+   ],
+   "adult": false
+  },
+  {
+   "file": "homer_odyssey.txt",
+   "title": "The Odyssey",
+   "author": "Homer",
+   "bytes": 705538,
+   "sha1": "47f2150047db357dfa0e235ae0be0690a8222d34",
+   "gutenberg": 1727,
+   "category": "Literature & myth",
+   "aliases": [
+    "odyssey",
+    "odysseus",
+    "ulysses"
+   ],
+   "adult": false
+  },
+  {
+   "file": "homer_odyssey_butcher.txt",
+   "title": "The Odyssey of Homer",
+   "author": "Homer",
+   "bytes": 777394,
+   "sha1": "0aa2e6becb1b3b530ef865895575f1e6a5caac48",
+   "gutenberg": 1728,
+   "category": "Literature & myth",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "kama_sutra.txt",
+   "title": "The Kama Sutra of Vatsyayana",
+   "author": "Vatsyayana",
+   "bytes": 351770,
+   "sha1": "9cb652746cae9491a3a665ce6b7ec6a5b34dbb95",
+   "gutenberg": 27827,
+   "category": "Literature & myth",
+   "aliases": [
+    "kama sutra"
+   ],
+   "adult": true
+  },
+  {
+   "file": "keble_national_apostasy.txt",
+   "title": "National Apostasy",
+   "author": "John Keble",
+   "bytes": 51359,
+   "sha1": "17b6c79f0883e184ca2d73fdba22072e09928b0b",
+   "gutenberg": 49112,
+   "category": "Religion & spirituality",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "kjv_bible.txt",
+   "title": "The Bible (King James Version)",
+   "author": "",
+   "bytes": 4355979,
+   "sha1": "0ab70644235b85983397b7753de941915538cb66",
+   "gutenberg": 10,
+   "category": "Religion & spirituality",
+   "aliases": [
+    "bible",
+    "king james",
+    "scripture",
+    "genesis",
+    "psalm",
+    "gospel",
+    "jesus"
+   ],
+   "adult": false
+  },
+  {
+   "file": "knowles_legends_of_king_arthur.txt",
+   "title": "The Legends of King Arthur and His Knights",
+   "author": "Sir James Knowles",
+   "bytes": 519610,
+   "sha1": "b5f3c0e77741392194f24995069e7c084d40f9f8",
+   "gutenberg": 12753,
+   "category": "Literature & myth",
+   "aliases": [
+    "king arthur",
+    "camelot",
+    "merlin",
+    "round table"
+   ],
+   "adult": false
+  },
+  {
+   "file": "lessons_in_wireless.txt",
+   "title": "Lessons in Wireless Telegraphy",
+   "author": "",
+   "bytes": 136279,
+   "sha1": "e5619751e788f8990e57a0a2266a52ff813e617b",
+   "gutenberg": 63345,
+   "category": "Science & how-to",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "livy_history_of_rome.txt",
+   "title": "The History of Rome, Books 1-8",
+   "author": "Livy",
+   "bytes": 1371386,
+   "sha1": "c023da188ff6751eb371fc001760f29c6cab5a80",
+   "gutenberg": 19725,
+   "category": "History",
+   "aliases": [
+    "livy"
+   ],
+   "adult": false
+  },
+  {
+   "file": "locke_second_treatise.txt",
+   "title": "Second Treatise of Government",
+   "author": "John Locke",
+   "bytes": 333501,
+   "sha1": "5a38e3243174e62a8100b5c8a10992691b24b1bf",
+   "gutenberg": 7370,
+   "category": "Philosophy",
+   "aliases": [
+    "john locke",
+    "second treatise"
+   ],
+   "adult": false
+  },
+  {
+   "file": "machiavelli_the_prince.txt",
+   "title": "The Prince",
+   "author": "Niccolò Machiavelli",
+   "bytes": 302843,
+   "sha1": "d10005a1c44ac1e1eae34b8bfef0dcc39bec3cfd",
+   "gutenberg": 1232,
+   "category": "Philosophy",
+   "aliases": [
+    "machiavelli",
+    "the prince"
+   ],
+   "adult": false
+  },
+  {
+   "file": "marcus_aurelius_meditations.txt",
+   "title": "Meditations",
+   "author": "Marcus Aurelius",
+   "bytes": 418073,
+   "sha1": "e20cbeecc25d429de8d62901d5f861f35966ffd2",
+   "gutenberg": 2680,
+   "category": "Philosophy",
+   "aliases": [
+    "marcus aurelius",
+    "meditations",
+    "stoic"
+   ],
+   "adult": false
+  },
+  {
+   "file": "mary_frances_first_aid.txt",
+   "title": "The Mary Frances First Aid Book",
+   "author": "Jane Eayre Fryer",
+   "bytes": 173839,
+   "sha1": "bb2565d171e4ab7d7acda1b3dde9d5cf7214e8a3",
+   "gutenberg": 54216,
+   "category": "Outdoors & first aid",
+   "aliases": [
+    "first aid"
+   ],
+   "adult": false
+  },
+  {
+   "file": "montaigne_essays.txt",
+   "title": "Essays of Montaigne",
+   "author": "Michel de Montaigne",
+   "bytes": 3053104,
+   "sha1": "19e83986756718ac0c51416ae3d994b5bd38debd",
+   "gutenberg": 3600,
+   "category": "Philosophy",
+   "aliases": [
+    "montaigne"
+   ],
+   "adult": false
+  },
+  {
+   "file": "nessmuk_woodcraft.txt",
+   "title": "Woodcraft and Camping",
+   "author": "George Washington Sears",
+   "bytes": 235524,
+   "sha1": "b991624f9a9305060bc805baddcf8c2bc545c91f",
+   "gutenberg": 34607,
+   "category": "Outdoors & first aid",
+   "aliases": [
+    "woodcraft",
+    "nessmuk",
+    "camping"
+   ],
+   "adult": false
+  },
+  {
+   "file": "newton_optics.txt",
+   "title": "Opticks",
+   "author": "Isaac Newton",
+   "bytes": 586719,
+   "sha1": "33dea849cdf091968e33b5d3406a5ced089adbf7",
+   "gutenberg": 33504,
+   "category": "Science & how-to",
+   "aliases": [
+    "newton",
+    "opticks"
+   ],
+   "adult": false
+  },
+  {
+   "file": "nietzsche_beyond_good_and_evil.txt",
+   "title": "Beyond Good and Evil",
+   "author": "Friedrich Wilhelm Nietzsche",
+   "bytes": 402469,
+   "sha1": "6418fbca587791ecfe1bc8499c16c89d0cc92d17",
+   "gutenberg": 4363,
+   "category": "Philosophy",
+   "aliases": [
+    "beyond good and evil"
+   ],
+   "adult": false
+  },
+  {
+   "file": "nietzsche_zarathustra.txt",
+   "title": "Thus Spake Zarathustra",
+   "author": "Friedrich Wilhelm Nietzsche",
+   "bytes": 666919,
+   "sha1": "a7a8bdc223bb100132f41551311b76bed7ecb90b",
+   "gutenberg": 1998,
+   "category": "Philosophy",
+   "aliases": [
+    "zarathustra"
+   ],
+   "adult": false
+  },
+  {
+   "file": "ouida_bebee_two_little_wooden_shoes.txt",
+   "title": "Bébée; Or, Two Little Wooden Shoes",
+   "author": "Ouida",
+   "bytes": 310944,
+   "sha1": "91b53bd08a740ba0bcc6737dc11811173c793cba",
+   "gutenberg": 13912,
+   "category": "Literature & myth",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "ovid_metamorphoses.txt",
+   "title": "Metamorphoses, Books I-VII",
+   "author": "Ovid",
+   "bytes": 766549,
+   "sha1": "a046470731087ee6cabde9b7f651e49c4014582d",
+   "gutenberg": 21765,
+   "category": "Literature & myth",
+   "aliases": [
+    "ovid",
+    "metamorphoses"
+   ],
+   "adult": false
+  },
+  {
+   "file": "petrol_engine_kean.txt",
+   "title": "The Petrol Engine",
+   "author": "Francis John Kean",
+   "bytes": 221790,
+   "sha1": "2895f544310e0ae23693286d0020f7f0f59c8963",
+   "gutenberg": 55403,
+   "category": "Science & how-to",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "plato_apology.txt",
+   "title": "Apology",
+   "author": "Plato",
+   "bytes": 105673,
+   "sha1": "42ed2feecaeea9c5ba6411c0523a0df547c67fa8",
+   "gutenberg": 1656,
+   "category": "Philosophy",
+   "aliases": [
+    "apology of socrates",
+    "socrates trial"
+   ],
+   "adult": false
+  },
+  {
+   "file": "plato_republic.txt",
+   "title": "The Republic",
+   "author": "Plato",
+   "bytes": 1219242,
+   "sha1": "3a6bc81f9ea27ae8975b7c953041ab319e3a7ad0",
+   "gutenberg": 1497,
+   "category": "Philosophy",
+   "aliases": [
+    "republic",
+    "plato"
+   ],
+   "adult": false
+  },
+  {
+   "file": "plato_symposium.txt",
+   "title": "Symposium",
+   "author": "Plato",
+   "bytes": 197682,
+   "sha1": "89933e4c33914ae846144bd8709a10c90f9462ca",
+   "gutenberg": 1600,
+   "category": "Philosophy",
+   "aliases": [
+    "symposium"
+   ],
+   "adult": false
+  },
+  {
+   "file": "practical_garden_book.txt",
+   "title": "The Practical Garden-Book",
+   "author": "C. E. Hunn and L. H. Bailey",
+   "bytes": 509278,
+   "sha1": "aaaedbb63d365ae84d65a9bf5accc191951fa7c0",
+   "gutenberg": 34602,
+   "category": "Gardening & herbs",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "pride_and_prejudice.txt",
+   "title": "Pride and Prejudice",
+   "author": "Jane Austen",
+   "bytes": 757471,
+   "sha1": "8962f9121009822c98aa1d77d51879514e30cf01",
+   "gutenberg": 1342,
+   "category": "Literature & myth",
+   "aliases": [
+    "pride and prejudice",
+    "jane austen",
+    "mr darcy",
+    "elizabeth bennet"
+   ],
+   "adult": false
+  },
+  {
+   "file": "quran_three_translations.txt",
+   "title": "The Qur'an (three translations)",
+   "author": "",
+   "bytes": 2760695,
+   "sha1": "16c10986c812b551a71cbd5544e820ff375a22e5",
+   "gutenberg": 16955,
+   "category": "Religion & spirituality",
+   "aliases": [
+    "quran",
+    "koran",
+    "qur'an"
+   ],
+   "adult": false
+  },
+  {
+   "file": "reading_my_toughest_trip.txt",
+   "title": "My toughest trip",
+   "author": "Robert William Reading",
+   "bytes": 28460,
+   "sha1": "aafe6741332c6b204ccbdf9bbdd044f23253642b",
+   "gutenberg": 74700,
+   "category": "Outdoors & first aid",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "robinson_the_fields_of_france.txt",
+   "title": "The Fields of France",
+   "author": "A. Mary F. Robinson",
+   "bytes": 490642,
+   "sha1": "7b9205b1abfcf16306573705e127a9dafea1ad5c",
+   "gutenberg": 70768,
+   "category": "Literature & myth",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "rowbotham_story_lives_of_great_musicians.txt",
+   "title": "Story-Lives of Great Musicians",
+   "author": "Francis Jameson Rowbotham",
+   "bytes": 615781,
+   "sha1": "c6869ec894c6172fc53d7dfe529bf906c58e2de4",
+   "gutenberg": 19748,
+   "category": "Literature & myth",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "sacred_books_east.txt",
+   "title": "Sacred Books of the East",
+   "author": "",
+   "bytes": 1031045,
+   "sha1": "b028107a448177a34d0ad74132c0da9306b52b53",
+   "gutenberg": 12894,
+   "category": "Religion & spirituality",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "shakespeare_complete.txt",
+   "title": "The Complete Works of William Shakespeare",
+   "author": "William Shakespeare",
+   "bytes": 5442082,
+   "sha1": "e18a5d759cf5f7ee8440ec277b8ed6e9e2adbe2d",
+   "gutenberg": 100,
+   "category": "Literature & myth",
+   "aliases": [
+    "shakespeare",
+    "hamlet",
+    "macbeth",
+    "romeo",
+    "juliet",
+    "othello",
+    "king lear"
+   ],
+   "adult": false
+  },
+  {
+   "file": "sheldon_true_loves_reward.txt",
+   "title": "True Love's Reward",
+   "author": "Mrs. Georgie Sheldon",
+   "bytes": 406495,
+   "sha1": "a2c937cc93f9b9975ed3b6cd9d39c2cb98d74f76",
+   "gutenberg": 14427,
+   "category": "Literature & myth",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "sinclair_king_midas.txt",
+   "title": "King Midas: a Romance",
+   "author": "Upton Sinclair",
+   "bytes": 581152,
+   "sha1": "6eaf2f5fe3f00dbf75b1bb934d35d9e6f8b14d85",
+   "gutenberg": 4923,
+   "category": "Literature & myth",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "small_gardens.txt",
+   "title": "Small Gardens",
+   "author": "Violet Purton Biddle",
+   "bytes": 224353,
+   "sha1": "9d6bf55a00a5a7aba22f12910a3c83669d372bf7",
+   "gutenberg": 33323,
+   "category": "Gardening & herbs",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "sophocles_oedipus.txt",
+   "title": "Plays of Sophocles: Oedipus, Antigone",
+   "author": "Sophocles",
+   "bytes": 235954,
+   "sha1": "6e95b36dc4c81de84cfc46bf69b9a66b93f9fa13",
+   "gutenberg": 31,
+   "category": "Literature & myth",
+   "aliases": [
+    "sophocles",
+    "oedipus",
+    "antigone"
+   ],
+   "adult": false
+  },
+  {
+   "file": "tacitus_annals.txt",
+   "title": "The Annals of Tacitus (Reign of Tiberius)",
+   "author": "Cornelius Tacitus",
+   "bytes": 637026,
+   "sha1": "2284f9d70ad49e094a87021b573c548e2fe0d650",
+   "gutenberg": 7959,
+   "category": "History",
+   "aliases": [
+    "tacitus"
+   ],
+   "adult": false
+  },
+  {
+   "file": "tao_te_ching.txt",
+   "title": "Tao Te Ching (The Tao Teh King)",
+   "author": "Laozi",
+   "bytes": 78705,
+   "sha1": "046fd80f678a58d57b48fa82fc14c339108fc7fd",
+   "gutenberg": 216,
+   "category": "Religion & spirituality",
+   "aliases": [
+    "tao te ching",
+    "lao tzu",
+    "laozi",
+    "taoism"
+   ],
+   "adult": false
+  },
+  {
+   "file": "time_machine.txt",
+   "title": "The Time Machine",
+   "author": "H. G. Wells",
+   "bytes": 200826,
+   "sha1": "5ab7c1f3e3e29b5d1d1402ef1b222348da8d8033",
+   "gutenberg": 35,
+   "category": "Literature & myth",
+   "aliases": [
+    "time machine",
+    "h. g. wells",
+    "hg wells"
+   ],
+   "adult": false
+  },
+  {
+   "file": "upanishads.txt",
+   "title": "The Upanishads",
+   "author": "",
+   "bytes": 122450,
+   "sha1": "7adbc5dd32a443a678cfc2853b71e338e173ba26",
+   "gutenberg": 3283,
+   "category": "Religion & spirituality",
+   "aliases": [
+    "upanishads"
+   ],
+   "adult": false
+  },
+  {
+   "file": "vegetable_garden.txt",
+   "title": "The Vegetable Garden: What, When, and How to Plant",
+   "author": "Anonymous",
+   "bytes": 477472,
+   "sha1": "36e8ca22dc19b3342e094326aa4885f6e45e335b",
+   "gutenberg": 43531,
+   "category": "Gardening & herbs",
+   "aliases": [
+    "vegetable garden"
+   ],
+   "adult": false
+  },
+  {
+   "file": "virgil_aeneid.txt",
+   "title": "The Aeneid",
+   "author": "Virgil",
+   "bytes": 731887,
+   "sha1": "94ac7cea67f35faffe50bd64d335548876be5129",
+   "gutenberg": 228,
+   "category": "Literature & myth",
+   "aliases": [
+    "aeneid",
+    "virgil",
+    "aeneas"
+   ],
+   "adult": false
+  },
+  {
+   "file": "wireless_telegraphy.txt",
+   "title": "Wireless Telegraphy and Telephony Simply Explained",
+   "author": "Alfred Powell Morgan",
+   "bytes": 285889,
+   "sha1": "7759f3fa10b6782d82d5b7fd800ab88c8ed0524a",
+   "gutenberg": 66702,
+   "category": "Science & how-to",
+   "aliases": [],
+   "adult": false
+  },
+  {
+   "file": "wisdom_of_the_apocrypha.txt",
+   "title": "The wisdom of the Apocrypha",
+   "author": "",
+   "bytes": 192638,
+   "sha1": "04bfeb776374968328303b0ece9c6f873c0e754e",
+   "gutenberg": 77250,
+   "category": "Religion & spirituality",
+   "aliases": [],
+   "adult": false
+  }
+ ]
+}
