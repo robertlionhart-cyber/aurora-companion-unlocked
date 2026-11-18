@@ -100,6 +100,8 @@ fun ChatScreen(ui: UiState, vm: AuroraViewModel, sizing: Sizing) {
     }
     if (showPicker) { FullScreen { CompanionPicker(ui, vm, sizing, firstRun = false, onClose = { showPicker = false }) }; return }
     if (showReminders) { FullScreen { RemindersScreen(ui, vm, sizing, onClose = { showReminders = false }) }; return }
+    // 1.0: chat can ask to open the Library (e.g. "read me <a book you don't have>" opens Find a book).
+    LaunchedEffect(ui.libraryOpen?.id) { if (ui.libraryOpen != null) { showSettings = false; showLibrary = true } }
     if (showLibrary) { FullScreen { LibraryScreen(ui, vm, sizing, onClose = { showLibrary = false }) }; return }
     if (showHistory) { FullScreen { HistoryScreen(ui, vm, sizing, onClose = { showHistory = false }) }; return }
     if (showMemory) { FullScreen { MemoryScreen(ui, vm, sizing, onClose = { showMemory = false }) }; return }
@@ -377,6 +379,9 @@ private fun ChatColumn(ui: UiState, vm: AuroraViewModel, sizing: Sizing, comp: C
                 }
             }
         }
+        // 1.0: the book player sits above the message bar while a book is open (the face stays visible above it).
+        val reading = ui.reading
+        if (reading != null && !ui.inCall) ReadAloudPlayer(reading, compact = true, modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp))
         // 0.9.8: the speaker toggle moved into the top-bar quick menu (silhouette button).
         if (ui.inCall) CallBar(ui, comp, onMute = vm::toggleMute, onEnd = vm::endCall)
         else InputBar(ui, onSend = vm::send, onStop = vm::stop, onCall = startCall,

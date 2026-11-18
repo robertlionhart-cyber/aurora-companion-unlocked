@@ -40,6 +40,9 @@ sealed class Screen {
     object Chat : Screen()
 }
 
+/** 1.0: open the Library on a tab ("find" = Find a book) with a query filled in. */
+data class LibraryOpen(val tab: String, val query: String = "", val id: Long = System.nanoTime())
+
 data class UiState(
     val screen: Screen = Screen.Setup,
     /** 0.9.0: model setup opened from Settings > Change AI model (full list) rather than on first run (light models only). */
@@ -122,6 +125,9 @@ data class UiState(
     /** A short emotion clip (resolved clip name) shown for a few seconds, or null. */
     val emotion: String? = null,
     val packs: PacksUi = PacksUi(),
+    // 1.0: read-aloud player (null = closed) and a request from chat to open the Library on "Find a book".
+    val reading: ReadAloud.State? = null,
+    val libraryOpen: LibraryOpen? = null,
 ) {
     val companion: CompanionProfile get() = characters.firstOrNull { it.id == companionId } ?: Companions.byId(companionId)
 }
@@ -213,7 +219,11 @@ class AuroraViewModel(app: Application) : AndroidViewModel(app) {
 
     init {
         runCatching { AvatarPacks.init(app) }.onFailure { Log.e(TAG, "avatar packs init failed", it) }
-        val chars = runCatching { CharacterStore.loadAll(app) }.getOrElse { Log.e(TAG, "characters load failed", it); emptyList() }
+        val chars0 = runCatching { CharacterStore.loadAll(app) }.getOrElse { Log.e(TAG, "characters load failed", it); emptyList() }
+        // 1.0: Family edition - a custom character using an Unlocked-only look switches to Aurora's look (saved).
+        val chars = if (Edition.UNLOCKED) chars0 else chars0.map { c ->
+            if (c.look in AvatarPacks.UNLOCKED_ONLY_LOOKS) c.copy(look = "aurora").also { runCatching { CharacterStore.save(app, it) } } else c
+        }
         Companions.custom = chars
         _ui.update { it.copy(characters = chars, packs = PacksUi(AvatarPacks.installed.keys, AvatarPacks.revision)) }
         // Sideloaded packs: checked at start, then every 15 s (a cheap folder listing) so an adb push is picked up.
@@ -271,6 +281,10 @@ class AuroraViewModel(app: Application) : AndroidViewModel(app) {
                 _ui.update { it.copy(micMode = MIC_HOLD) }   // hands-free needs the VAD
             }
         }
+        // 1.0 read-aloud: uses the same loaded voice (never the chat model); chat speech stops while a book is read.
+        ReadAloud.attach(app, voice)
+        ReadAloud.beforePlay = { voice.stopSpeaking(); pendingSpeech.set(0); _ui.update { it.copy(speaking = false) } }
+        viewModelScope.launch { ReadAloud.state.collect { st -> _ui.update { it.copy(reading = st) } } }
         // Single speech worker: synthesizes + plays sentences in order.
         viewModelScope.launch(Dispatchers.IO) {
             for (u in speechQueue) {
@@ -624,6 +638,8 @@ class AuroraViewModel(app: Application) : AndroidViewModel(app) {
     fun send(text: String) {
         val msg = text.trim()
         if (msg.isEmpty() || _ui.value.generating || _ui.value.screen != Screen.Chat) return
+        // 1.0: "read me Treasure Island" / "can you read the book" / "keep reading" starts the book player (no AI model needed).
+        BookText.readRequest(msg)?.let { rr -> if (handleReadRequest(msg, rr)) return }
         // You come first: an unfinished memory pass is paused and retried later.
         memJob?.let { if (it.isActive) it.cancel() }
         val userMsg = ChatMessage(text = msg, isUser = true)
@@ -863,6 +879,7 @@ class AuroraViewModel(app: Application) : AndroidViewModel(app) {
 
     private fun enqueueSpeech(text: String, epoch: Int) {
         if (!voice.ttsReady) return
+        if (ReadAloud.isPlaying) ReadAloud.pause()   // 1.0: the companion talking to you wins over the book
         val clean = VoiceEngine.cleanForSpeech(AvatarPacks.TAG_RE.replace(text, " ").trim())
         if (clean.isEmpty()) return
         pendingSpeech.incrementAndGet()
@@ -916,6 +933,7 @@ class AuroraViewModel(app: Application) : AndroidViewModel(app) {
         if (_ui.value.inCall) return
         if (!voice.asrReady || !voice.ttsReady) { _ui.update { it.copy(error = "Voice is still loading. Try again in a few seconds.") }; return }
         stopSpeaking(); voice.stopRecording()
+        ReadAloud.pause()
         call.settings = CallEngine.Settings(_ui.value.bargeIn, _ui.value.bargeSensitivity)
         call.muted = false
         try {
@@ -1541,6 +1559,91 @@ class AuroraViewModel(app: Application) : AndroidViewModel(app) {
         runCatching { Library.readerText(getApplication(), book) }.onFailure { Log.e(TAG, "reader", it) }.getOrNull()
     }
 
+    // ---------- 1.0: read aloud ----------
+    /** "Read this to me": opens the player on [book] (from [fromPos] if given, else where listening stopped). */
+    fun readAloud(book: BookInfo, fromPos: Int? = null) {
+        if (!voice.ttsReady) { _ui.update { it.copy(error = "The voice is still loading. Try again in a few seconds.") }; return }
+        ReadAloud.open(book, fromPos, autoplay = true)
+    }
+
+    fun listenPos(file: String) = ReadAloud.savedPos(getApplication(), file)
+
+    private fun appSay(user: String, reply: String) {
+        _ui.update { it.copy(messages = it.messages + ChatMessage(text = user, isUser = true, aside = true) + ChatMessage(text = reply, isUser = false, aside = true)) }
+        saveConversation()
+    }
+
+    /** Handles a read request from chat. Returns false to let the AI answer normally. */
+    private fun handleReadRequest(msg: String, rr: BookText.ReadRequest): Boolean {
+        val ctx = getApplication<Application>()
+        val have = runCatching { Library.books(ctx).filter { Library.isDownloaded(ctx, it) } }.getOrDefault(emptyList())
+        when (rr) {
+            is BookText.ReadRequest.Stop -> {
+                if (!ReadAloud.active) return false
+                ReadAloud.pause(); appSay(msg, "Okay, I'll stop here. I've saved your place.")
+            }
+            is BookText.ReadRequest.Resume -> {
+                val file = _ui.value.reading?.file ?: ReadAloud.lastFile(ctx)
+                val b = file?.let { f -> have.firstOrNull { it.file == f } } ?: return false
+                appSay(msg, "Sure! Picking up ${b.title} where we left off.")
+                readAloud(b)
+            }
+            is BookText.ReadRequest.AnyBook -> {
+                val last = (_ui.value.reading?.file ?: ReadAloud.lastFile(ctx))?.let { f -> have.firstOrNull { it.file == f } }
+                if (last != null) { appSay(msg, "Of course! Here's ${last.title}, from where we stopped."); readAloud(last) }
+                else if (have.isEmpty()) {
+                    appSay(msg, "I'd love to! Your Library has no books yet. Open \uD83D\uDCDA Library to download the free books, or use Find a book to add one.")
+                    _ui.update { it.copy(libraryOpen = LibraryOpen("books")) }
+                } else {
+                    val example = have.random().title.substringBefore(':').substringBefore(';').trim()
+                    appSay(msg, "I'd love to! Which book? Tell me a title, like \"read me $example\", or pick one in the Library and tap \uD83D\uDD0A Read to me.")
+                    _ui.update { it.copy(libraryOpen = LibraryOpen("books")) }
+                }
+            }
+            is BookText.ReadRequest.Title -> {
+                val all = runCatching { Library.books(ctx) }.getOrDefault(emptyList())
+                val m = BookText.bestMatch(rr.query, all, { it.title }, { it.author }, { it.aliases })
+                if (m == null) {
+                    // Not in the Library: offer to look it up (Find a book needs Online).
+                    val q = rr.query.replace(Regex(" by .*$"), "").trim().ifEmpty { rr.query }
+                    appSay(msg, if (_ui.value.online) "I don't have \"${rr.query}\" in your Library yet. I opened Find a book, so you can add it from Project Gutenberg's free books."
+                        else "I don't have \"${rr.query}\" in your Library yet. Find a book can add free public-domain books, but it needs Online mode (the \uD83C\uDF10 globe). I opened it for you.")
+                    _ui.update { it.copy(libraryOpen = LibraryOpen("find", q)) }
+                    return true
+                }
+                val b = m.first
+                if (!Library.isDownloaded(ctx, b)) {
+                    appSay(msg, "${b.title} is in the Library, but it isn't downloaded yet. Open \uD83D\uDCDA Library and tap Download first, then ask me again.")
+                    _ui.update { it.copy(libraryOpen = LibraryOpen("books")) }
+                    return true
+                }
+                appSay(msg, "Okay! Here's ${b.title}" + (if (b.author.isNotBlank()) " by ${b.author}" else "") + ". Get comfy, I'll start reading.")
+                readAloud(b)
+            }
+        }
+        return true
+    }
+
+    fun consumeLibraryOpen() = _ui.update { it.copy(libraryOpen = null) }
+
+    // ---------- 1.0: Find a book (Gutendex) ----------
+    suspend fun findBooks(query: String, next: String? = null): Result<Gutendex.Page> =
+        runCatching { Gutendex.search(query, next) }.onFailure { Log.w(TAG, "gutendex", it) }
+
+    suspend fun bookSizes(results: List<Gutendex.Result>): Map<Int, Long> = runCatching { Gutendex.sizes(results) }.getOrDefault(emptyMap())
+
+    /** Downloads + stores a found book. */
+    suspend fun addFoundBook(r: Gutendex.Result, progress: (Float?) -> Unit): Result<BookInfo> {
+        val res = runCatching { Gutendex.add(getApplication(), r, progress) }.onFailure { Log.e(TAG, "add book ${r.id}", it) }
+        refreshLibrary()
+        return res
+    }
+
+    fun removeAddedBook(b: BookInfo) {
+        if (_ui.value.reading?.file == b.file) ReadAloud.stop()
+        viewModelScope.launch(Dispatchers.IO) { runCatching { Library.removeAdded(getApplication(), b) }; refreshLibrary() }
+    }
+
     fun readerPos(file: String) = prefs.getInt("reader_pos_$file", 0)
     fun saveReaderPos(file: String, pos: Int) = prefs.edit().putInt("reader_pos_$file", pos).apply()
     fun readerFont() = prefs.getInt("reader_font", 18)
@@ -2050,6 +2153,7 @@ class AuroraViewModel(app: Application) : AndroidViewModel(app) {
     fun onAppForeground() = applyKeepAlive(force = true)
 
     override fun onCleared() {
+        runCatching { ReadAloud.detach() }
         runCatching { KeepAliveService.update(getApplication(), false, false, null) }
         runCatching { saveConversation(sync = true) }
         memJob?.cancel()

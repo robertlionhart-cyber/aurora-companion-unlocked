@@ -73,8 +73,14 @@ object AvatarPacks {
         PackInfo("pebble", "Pebble", null, 13, 1274188, "7e4c504e820c04ec855c0548251c0d6e776d337f49d52650d4a03a2fffddeab4"),
     )
 
-    /** Family edition: the extra animations for the built-in companions plus family-friendly looks (never swimwear); Unlocked: every pack. */
+    /**
+     * Family edition: the extra animations for the built-in companions plus the family looks (business Aurora, Scott,
+     * Globe); never swimwear. Unlocked: every pack. (1.0: Robert decided the other looks stay Unlocked only.)
+     */
     val catalog: List<PackInfo> get() = if (Edition.UNLOCKED) CATALOG else CATALOG.filter { (it.builtIn || it.family) && !it.swimwear }
+
+    /** 1.0: looks that are Unlocked only; the Family edition removes them if a test build installed them. */
+    val UNLOCKED_ONLY_LOOKS = setOf("clover", "cybele", "kumi", "lucky", "pebble", "amy", "anastasia", "aurora_classic", "horizon")
     fun info(id: String?) = catalog.firstOrNull { it.id == id }
 
     /** Every clip name a pack may contain (everyday only). */
@@ -115,6 +121,10 @@ object AvatarPacks {
             Log.i(TAG, "removing retired pack $id"); d.deleteRecursively()
         }
         migrateAurora(r)
+        // 1.0: Family keeps only its own looks; packs of Unlocked-only looks (from a test build) are removed.
+        if (!Edition.UNLOCKED) for (id in UNLOCKED_ONLY_LOOKS) File(r, id).takeIf { it.exists() }?.let { d ->
+            Log.i(TAG, "removing Unlocked-only pack $id"); d.deleteRecursively()
+        }
         scan()
     }
 

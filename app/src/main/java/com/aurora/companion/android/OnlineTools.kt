@@ -21,7 +21,7 @@ import java.util.Locale
  */
 object OnlineTools {
     private const val TAG = "OnlineTools"
-    private val UA = "AuroraCompanion/0.9.9 (Android; github.com/" + Edition.UPDATE_REPO + ")"
+    private val UA = "AuroraCompanion/1.0 (Android; github.com/" + Edition.UPDATE_REPO + ")"
     const val MAX_NOTE = 600
 
     sealed class Intent {

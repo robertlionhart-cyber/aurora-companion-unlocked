@@ -52,6 +52,12 @@ Everything in the Family edition:
 - Online / Offline switch for weather, news and quick look-ups (off by default)
 - Quick menu (person button), character creation and import (SillyTavern / TavernAI cards), offline voice chat and
   phone-call mode, reminders, an 82-book public-domain library, conversation history and running memory
+- **Read aloud (new in 1.0)**: tap **Read this to me** on any Library book, or ask in chat ("read me Peter Pan",
+  "keep reading", "stop reading"), and your companion reads it in its own voice, chapter by chapter, with the talking
+  animation. Big controls (tap = a sentence, hold = a paragraph), chapters, speed and a bedtime timer; keeps going
+  with the screen off, with lock-screen and headphone controls, and remembers your place in every book
+- **Find a book (new in 1.0)**: search Project Gutenberg's free public-domain books (via Gutendex, no account) and add
+  them to your Library. Needs Online mode; added books work offline
 - In-app updates
 
 ## Models
@@ -79,7 +85,8 @@ of Aurora Companion.
 - Chats, voice, history and memory notes never leave your device. No account, ads, analytics or telemetry.
 - Network use: downloads when you tap them; the update check (GitHub) if you leave it on; and, only while **Online**
   is on, the words of a weather, news or look-up question (or your city) go to Open-Meteo, BBC News / Google News,
-  Wikipedia or DuckDuckGo. Your chats are never sent.
+  Wikipedia or DuckDuckGo; **Find a book** sends your search words to gutendex.com and downloads the book from
+  Project Gutenberg. Your chats are never sent.
 
 ## Disclaimer
 

@@ -24,6 +24,8 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <!-- 1.0: reading a book aloud keeps playing with the screen off (media notification + lock-screen controls). -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
 
     <application
         android:allowBackup="false"
@@ -68,6 +70,12 @@
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
                 android:value="Keeps a large on-device AI chat model loaded in memory while the user is chatting or in a voice call, so it isn't reloaded (30+ s) every time they switch apps." />
         </service>
+
+        <!-- 1.0: read-aloud (audiobook) playback with the screen off (internal only). -->
+        <service
+            android:name=".ReadAloudService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
 
         <!-- 0.6: share exported companion packs (cache/share only). -->
         <provider

@@ -41,6 +41,8 @@ fun avatarState(ui: UiState): String {
         // 0.9.5: a short emotion clip (from the reply's [mood] tag or keywords) wins over speaking / idle.
         emo != null && !ui.listening && !ui.callHearing && !ui.transcribing -> emo
         ui.speaking -> Companions.STATE_SPEAKING
+        // 1.0: reading a book aloud uses the talking clip.
+        ui.reading?.playing == true -> Companions.STATE_SPEAKING
         ui.transcribing -> Companions.STATE_THINKING
         ui.generating && (last == null || last.isUser || last.text.isEmpty()) -> Companions.STATE_THINKING
         ui.generating -> Companions.STATE_SPEAKING

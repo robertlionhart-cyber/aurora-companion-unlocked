@@ -315,6 +315,17 @@ class VoiceEngine(private val context: Context) {
         Log.i(TAG, "TTS wrote $written/${audio.samples.size} samples")
     }
 
+    /**
+     * 1.0 read-aloud: synthesize only (no playback); the book player plays it on its own track so it can pause,
+     * skip and stay a sentence or two ahead. Returns (samples, sampleRate) or null when the voice isn't loaded.
+     */
+    fun synth(text: String, speed: Float = 1.0f): Pair<FloatArray, Int>? = ttsLock.withLock {
+        val engine = tts ?: return null
+        val sid = if (engine.numSpeakers() > 1) speakerId.coerceIn(0, engine.numSpeakers() - 1) else 0
+        val a = engine.generate(text = text, sid = sid, speed = speed)
+        a.samples to a.sampleRate
+    }
+
     private fun ensureTrack(rate: Int): AudioTrack {
         val wantCall = callSession != 0
         track?.let {

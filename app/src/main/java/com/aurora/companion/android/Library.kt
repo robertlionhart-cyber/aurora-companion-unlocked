@@ -24,6 +24,8 @@ data class BookInfo(
     val category: String,
     val aliases: List<String>,
     val adult: Boolean,
+    /** 1.0: added by the user from "Find a book" (Gutendex); stored next to the library books, never re-downloaded. */
+    val added: Boolean = false,
 )
 
 data class LibraryStatus(
@@ -58,6 +60,7 @@ object Library {
     private const val TAG = "AuroraLibrary"
     const val MANIFEST_ASSET = "library/manifest.json"
     const val DB_VERSION = 1
+    const val ADDED_CATEGORY = "Added books"
 
     /**
      * 18+ gate (0.8.4). Adult-only books (the Kama Sutra) are hidden from the list, never downloaded, never indexed
@@ -72,7 +75,14 @@ object Library {
     @Volatile var commit: String = ""
         private set
 
+    /** Manifest books plus the books the user added (1.0). */
     fun allBooks(ctx: Context): List<BookInfo> {
+        val m = manifestBooks(ctx)
+        val a = addedBooks(ctx)
+        return if (a.isEmpty()) m else m + a.filter { x -> m.none { it.file == x.file } }
+    }
+
+    private fun manifestBooks(ctx: Context): List<BookInfo> {
         manifest?.let { return it }
         val root = JSONObject(ctx.assets.open(MANIFEST_ASSET).bufferedReader().use { it.readText() })
         baseUrl = root.getString("base_url")
@@ -124,7 +134,91 @@ object Library {
     /** Removes the downloaded books and the index (the manifest stays in the APK). */
     fun deleteAll(ctx: Context) {
         synchronized(dbLock) { db?.close(); db = null }
-        dir(ctx).deleteRecursively()
+        // 1.0: books you added yourself are kept (with their list); only the downloaded library and the index go.
+        val keep = addedBooks(ctx).map { it.file }.toSet() + "added.json"
+        dir(ctx).listFiles()?.forEach { f ->
+            if (f.name == "books") f.listFiles()?.forEach { if (it.name !in keep) it.delete() }
+            else if (f.name !in keep) f.deleteRecursively()
+        }
+    }
+
+    // ---------- 1.0: books added from "Find a book" ----------
+    private val addedLock = Any()
+    @Volatile private var added: List<BookInfo>? = null
+    private fun addedFile(ctx: Context) = File(dir(ctx), "added.json")
+
+    fun addedBooks(ctx: Context): List<BookInfo> {
+        added?.let { return it }
+        synchronized(addedLock) {
+            added?.let { return it }
+            val f = addedFile(ctx)
+            val list = if (!f.isFile) emptyList() else runCatching {
+                val arr = org.json.JSONArray(f.readText())
+                (0 until arr.length()).map { i ->
+                    val o = arr.getJSONObject(i)
+                    BookInfo(file = o.getString("file"), title = o.getString("title"), author = o.optString("author"),
+                        bytes = o.getLong("bytes"), sha1 = o.getString("sha1"),
+                        gutenberg = if (o.isNull("gutenberg")) null else o.optInt("gutenberg"),
+                        category = o.optString("category", ADDED_CATEGORY), aliases = emptyList(), adult = false, added = true)
+                }.filter { File(booksDir(ctx), it.file).isFile }
+            }.getOrElse { Log.e(TAG, "added.json unreadable", it); emptyList() }
+            added = list
+            return list
+        }
+    }
+
+    private fun saveAdded(ctx: Context, list: List<BookInfo>) {
+        val arr = org.json.JSONArray()
+        for (b in list) arr.put(JSONObject().put("file", b.file).put("title", b.title).put("author", b.author).put("bytes", b.bytes)
+            .put("sha1", b.sha1).put("gutenberg", b.gutenberg ?: JSONObject.NULL).put("category", b.category))
+        val tmp = File(dir(ctx), "added.json.tmp")
+        tmp.writeText(arr.toString(1))
+        if (!tmp.renameTo(addedFile(ctx))) { addedFile(ctx).writeText(arr.toString(1)); tmp.delete() }
+        added = list
+    }
+
+    /** Stores an added book's text (already cleaned) and registers it. Returns the new entry. */
+    fun addBook(ctx: Context, file: String, title: String, author: String, gutenberg: Int?, text: String): BookInfo {
+        synchronized(addedLock) {
+            val target = File(booksDir(ctx), file)
+            val tmp = File(target.path + ".part")
+            tmp.writeText(text, Charsets.UTF_8)
+            if (!tmp.renameTo(target)) { target.delete(); if (!tmp.renameTo(target)) throw IllegalStateException("Could not save $file") }
+            val b = BookInfo(file = file, title = title, author = author, bytes = target.length(), sha1 = gitBlobSha1(target),
+                gutenberg = gutenberg, category = ADDED_CATEGORY, aliases = emptyList(), adult = false, added = true)
+            saveAdded(ctx, addedBooks(ctx).filter { it.file != file } + b)
+            return b
+        }
+    }
+
+    fun removeAdded(ctx: Context, b: BookInfo) {
+        if (!b.added) return
+        synchronized(addedLock) {
+            saveAdded(ctx, addedBooks(ctx).filter { it.file != b.file })
+            File(booksDir(ctx), b.file).delete()
+        }
+        runCatching { unindex(ctx, b.file) }.onFailure { Log.w(TAG, "unindex ${b.file}", it) }
+    }
+
+    /** Indexes one book now (after adding it), when the index is in use. */
+    fun indexOne(ctx: Context, b: BookInfo) {
+        if (!dbFile(ctx).exists() || !isDownloaded(ctx, b)) return
+        indexBook(open(ctx), b, bookFile(ctx, b).readBytes())
+    }
+
+    private fun unindex(ctx: Context, file: String) {
+        if (!dbFile(ctx).exists()) return
+        val d = open(ctx)
+        synchronized(dbLock) {
+            d.beginTransaction()
+            try {
+                // Contentless FTS4 rows can't be deleted by value, so the chunk rows are orphaned (book '') instead of deleted:
+                // their ids stay taken (new chunks never reuse an id the FTS table still has) and hits on them are skipped.
+                d.execSQL("UPDATE chunks SET book='' WHERE book=?", arrayOf<Any>(file))
+                d.execSQL("DELETE FROM books_indexed WHERE file=?", arrayOf<Any>(file))
+                d.setTransactionSuccessful()
+            } finally { d.endTransaction() }
+        }
     }
 
     // ---------- download ----------
