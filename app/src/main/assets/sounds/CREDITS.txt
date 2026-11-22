@@ -1,0 +1,8 @@
+Animal sounds (Aurora Companion 1.0.1): short excerpts, trimmed, faded and volume-matched.
+
+cat_1.wav  BigSoundBank #1895 (Meow cat), Joseph SARDIN - CC0 1.0 - https://bigsoundbank.com/licenses.html
+cat_2.wav  "2015-11-24.νιαούρισμα.Νιάου.noise reduced.flac", Tsester, Wikimedia Commons - CC0 1.0
+cat_3.wav  "GettingOutImpatient.ogg", Heismark, Wikimedia Commons - Public domain
+cat_4.wav  "Meow of a pleading cat.oga", Heismark, Wikimedia Commons - Public domain
+cat_5.wav  BigSoundBank #1901 (Meow Cat #13), Joseph SARDIN - CC0 1.0
+dog_1-4.wav BigSoundBank #916 (Barking dog #1), Joseph SARDIN - CC0 1.0

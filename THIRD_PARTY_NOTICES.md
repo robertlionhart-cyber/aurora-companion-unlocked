@@ -38,3 +38,11 @@ only. Do not redistribute it or use it to impersonate him.
 
 The companion avatar clips (built in and in the avatar packs) are the author's own creations, re-encoded from the
 Aurora desktop app's avatars. No real people are depicted.
+
+## Animal sounds (Leo's meows, Barry's woofs)
+
+Short trimmed excerpts in `app/src/main/assets/sounds/` (details in `CREDITS.txt` there):
+
+- Joseph SARDIN, [BigSoundBank](https://bigsoundbank.com) sounds #916, #1895 and #1901: CC0 1.0 (public-domain dedication).
+- Wikimedia Commons: "2015-11-24.νιαούρισμα.Νιάου.noise reduced.flac" by Tsester (CC0 1.0); "GettingOutImpatient.ogg"
+  and "Meow of a pleading cat.oga" by Heismark (public domain).

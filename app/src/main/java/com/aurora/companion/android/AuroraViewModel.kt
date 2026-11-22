@@ -61,6 +61,8 @@ data class UiState(
     val micReady: Boolean = false,
     val voiceStatus: String = "Voice starting...",
     val autoSpeak: Boolean = true,
+    /** 1.0.1: Leo meows / Barry woofs before talking (Settings > Voice). */
+    val animalSounds: Boolean = true,
     val listening: Boolean = false,
     /** Tap-to-talk: recording keeps going until the mic is tapped again. */
     val listenLatched: Boolean = false,
@@ -206,7 +208,10 @@ class AuroraViewModel(app: Application) : AndroidViewModel(app) {
 
     // ---------- voice ----------
     private val voice = VoiceEngine(app)
-    private data class Utterance(val text: String, val epoch: Int)
+    /** [intro]: first sentence of something new being said; the cat / dog makes its sound first (1.0.1). */
+    private data class Utterance(val text: String, val epoch: Int, val intro: Boolean = false)
+    /** 1.0.1: set when the companion starts a new reply; the next sentence queued carries the animal sound. */
+    @Volatile private var introPending = false
     private val speechQueue = Channel<Utterance>(Channel.UNLIMITED)
     private val pendingSpeech = java.util.concurrent.atomic.AtomicInteger(0)
     private var recordJob: Job? = null
@@ -249,6 +254,7 @@ class AuroraViewModel(app: Application) : AndroidViewModel(app) {
         _ui.update {
             it.copy(
                 autoSpeak = prefs.getBoolean("auto_speak", true),
+                animalSounds = prefs.getBoolean("animal_sounds", true),
                 micMode = prefs.getString("mic_mode", MIC_AUTO) ?: MIC_AUTO,
                 speakerId = savedSpeaker,
                 installedVoices = installedVoiceIds(),
@@ -289,7 +295,10 @@ class AuroraViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch(Dispatchers.IO) {
             for (u in speechQueue) {
                 try {
-                    if (u.epoch == voice.currentEpoch()) voice.speakBlocking(u.text, u.epoch)
+                    if (u.epoch == voice.currentEpoch()) {
+                        if (u.intro) animalPrelude()?.let { (pcm, rate) -> voice.playPrelude(pcm, rate, u.epoch) }
+                        voice.speakBlocking(u.text, u.epoch)
+                    }
                 } catch (e: Throwable) {
                     Log.e(TAG, "speak failed", e)
                 } finally {
@@ -661,6 +670,7 @@ class AuroraViewModel(app: Application) : AndroidViewModel(app) {
             val sb = StringBuilder()
             val splitter = SentenceSplitter()
             val speakEpoch = voice.currentEpoch()
+            introPending = true
             try {
                 // 0.9.3: Online lookups (only when the globe is on): a compact result rides along in the hidden note.
                 val online = if (!goOnline) null else withContext(Dispatchers.IO) { onlineNote(msg) }
@@ -884,13 +894,33 @@ class AuroraViewModel(app: Application) : AndroidViewModel(app) {
         if (clean.isEmpty()) return
         pendingSpeech.incrementAndGet()
         _ui.update { it.copy(speaking = true) }
-        speechQueue.trySend(Utterance(clean, epoch))
+        val intro = introPending
+        introPending = false
+        speechQueue.trySend(Utterance(clean, epoch, intro))
+    }
+
+    /**
+     * 1.0.1: the meow / woof for the current companion, or null: only for the cat and dog looks, only with the
+     * "Animal sounds before talking" switch on and Voice on (or in a call). Book reading never uses this queue.
+     */
+    private fun animalPrelude(): Pair<FloatArray, Int>? {
+        val s = _ui.value
+        if (!s.animalSounds || !(s.autoSpeak || s.inCall)) return null
+        val kind = AnimalSounds.kindFor(s.companion.look) ?: return null
+        val rate = voice.ttsSampleRate().takeIf { it > 0 } ?: return null
+        return AnimalSounds.next(getApplication(), kind, rate)?.let { it to rate }
+    }
+
+    fun setAnimalSounds(on: Boolean) {
+        prefs.edit().putBoolean("animal_sounds", on).apply()
+        _ui.update { it.copy(animalSounds = on) }
     }
 
     /** Speaker button: speak a single message on demand. */
     fun speakMessage(text: String) {
         stopSpeaking()
         val epoch = voice.currentEpoch()
+        introPending = true
         val sp = SentenceSplitter()
         sp.push(text + " ").forEach { enqueueSpeech(it, epoch) }
         sp.flush()?.let { enqueueSpeech(it, epoch) }

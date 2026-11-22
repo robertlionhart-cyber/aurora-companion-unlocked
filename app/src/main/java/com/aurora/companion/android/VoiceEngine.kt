@@ -290,6 +290,28 @@ class VoiceEngine(private val context: Context) {
     }
 
     /** Blocking: synthesizes and plays one sentence, unless interrupted. */
+    /** 1.0.1: sample rate of the loaded voice (0 when none is loaded). */
+    fun ttsSampleRate(): Int = runCatching { tts?.sampleRate() ?: 0 }.getOrDefault(0)
+
+    /**
+     * 1.0.1: plays a short sound (the cat's meow / the dog's woof) on the speech track, right before the next sentence.
+     * Written to the same track so it can't overlap the voice, and stopping speech stops it too.
+     */
+    fun playPrelude(samples: FloatArray, rate: Int, myEpoch: Int) {
+        if (myEpoch != epoch.get() || samples.isEmpty() || rate <= 0) return
+        val t = ensureTrack(rate)
+        t.setVolume(1f)
+        if (t.playState != AudioTrack.PLAYSTATE_PLAYING) t.play()
+        var off = 0
+        val chunk = rate / 10
+        while (off < samples.size && myEpoch == epoch.get()) {
+            val n = minOf(chunk, samples.size - off)
+            val w = t.write(samples, off, n, AudioTrack.WRITE_BLOCKING)
+            if (w < 0) { Log.e(TAG, "AudioTrack write error $w (prelude)"); break }
+            off += n
+        }
+    }
+
     fun speakBlocking(text: String, myEpoch: Int, speed: Float = 1.0f) {
         if (myEpoch != epoch.get()) return
         val audio = ttsLock.withLock {

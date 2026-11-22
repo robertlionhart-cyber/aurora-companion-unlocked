@@ -56,6 +56,9 @@ Everything in the Family edition:
   "keep reading", "stop reading"), and your companion reads it in its own voice, chapter by chapter, with the talking
   animation. Big controls (tap = a sentence, hold = a paragraph), chapters, speed and a bedtime timer; keeps going
   with the screen off, with lock-screen and headphone controls, and remembers your place in every book
+- **Animal sounds (new in 1.0.1)**: Leo the cat meows and Barry the dog woofs right before they talk (a little quieter
+  than the voice, a different sound each time). Switch it off in **Settings > Voice & calls > Animal sounds before
+  talking**. Book read-aloud is never interrupted by it
 - **Find a book (new in 1.0)**: search Project Gutenberg's free public-domain books (via Gutendex, no account) and add
   them to your Library. Needs Online mode; added books work offline
 - In-app updates
@@ -119,3 +122,7 @@ llama.cpp JNI bridge, `scripts/` helpers, `third_party/` fetched dependencies (n
 See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Avatar clips are the author's own creations (no real people).
 `en_US-robert-medium` is Robert's own voice model, included for personal use with Aurora Companion only. Do not
 redistribute it or use it to impersonate him.
+
+The animal sounds are short excerpts of free recordings: Joseph SARDIN / [BigSoundBank](https://bigsoundbank.com)
+(CC0) and Wikimedia Commons recordings by Tsester (CC0) and Heismark (public domain); details in
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and `app/src/main/assets/sounds/CREDITS.txt`.

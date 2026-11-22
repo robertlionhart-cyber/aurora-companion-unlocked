@@ -811,6 +811,9 @@ private fun VoicePage(ui: UiState, vm: AuroraViewModel) {
     SettingRow("Speak replies", "Read replies out loud") {
         Switch(checked = ui.autoSpeak, enabled = ui.voiceReady, onCheckedChange = { vm.toggleAutoSpeak() })
     }
+    SettingRow("Animal sounds before talking", "Leo the cat meows and Barry the dog woofs before they talk") {
+        Switch(checked = ui.animalSounds, onCheckedChange = { vm.setAnimalSounds(it) })
+    }
     OutlinedButton(onClick = vm::testVoice, enabled = ui.voiceReady && !ui.switchingVoice) { Text("\u25B6 Test voice") }
     Hint(ui.voiceStatus)
 
