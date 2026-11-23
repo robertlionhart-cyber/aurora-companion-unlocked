@@ -310,6 +310,19 @@ private fun ModeChip(ui: UiState, vm: AuroraViewModel, comp: CompanionProfile) {
 private fun ChatColumn(ui: UiState, vm: AuroraViewModel, sizing: Sizing, comp: CompanionProfile, overlay: Boolean,
                        startCall: () -> Unit, modifier: Modifier, screenHeight: Dp?) {
     val speakFn: (String) -> Unit = { if (ui.voiceReady) vm.speakMessage(it) }
+    // 1.0.2: while a book is being read, the chat screen shows the big avatar with the full book controls docked under it
+    // (chat hidden). The down arrow shrinks it to the small bar (chat back); Close stops reading and returns to chat.
+    val book = ui.reading
+    val docked = book != null && !ui.inCall && !ui.readerMinimized
+    androidx.activity.compose.BackHandler(enabled = docked) { vm.setReaderMinimized(true) }
+    if (docked && book != null) {
+        Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+            Spacer(Modifier.weight(1f))
+            ReadAloudPlayer(book, compact = false, onClose = vm::closeReader, onMinimize = { vm.setReaderMinimized(true) },
+                modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp))
+        }
+        return
+    }
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         // Typed chat: the message area never reaches above the middle of the screen (the face stays visible).
         val density = LocalDensity.current
@@ -381,7 +394,8 @@ private fun ChatColumn(ui: UiState, vm: AuroraViewModel, sizing: Sizing, comp: C
         }
         // 1.0: the book player sits above the message bar while a book is open (the face stays visible above it).
         val reading = ui.reading
-        if (reading != null && !ui.inCall) ReadAloudPlayer(reading, compact = true, modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp))
+        if (reading != null && !ui.inCall) ReadAloudPlayer(reading, compact = true, onClose = vm::closeReader,
+            onExpand = { vm.setReaderMinimized(false) }, modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp))
         // 0.9.8: the speaker toggle moved into the top-bar quick menu (silhouette button).
         if (ui.inCall) CallBar(ui, comp, onMute = vm::toggleMute, onEnd = vm::endCall)
         else InputBar(ui, onSend = vm::send, onStop = vm::stop, onCall = startCall,

@@ -34,15 +34,22 @@ import com.aurora.companion.android.Companions
 import com.aurora.companion.android.UiState
 
 /** Which clip to show for the current app state. */
-fun avatarState(ui: UiState): String {
+fun avatarState(ui: UiState, now: Long = System.currentTimeMillis()): String {
     val last = ui.messages.lastOrNull()
-    val emo = ui.emotion
+    val rd = ui.reading
+    // 1.0.2: never the "playful" clip while a book is open (stories never pick it).
+    val emo = ui.emotion?.takeUnless { rd != null && it.startsWith("playful") }
     return when {
         // 0.9.5: a short emotion clip (from the reply's [mood] tag or keywords) wins over speaking / idle.
         emo != null && !ui.listening && !ui.callHearing && !ui.transcribing -> emo
         ui.speaking -> Companions.STATE_SPEAKING
+        // 1.0.2: bedtime timer ended the story -> asleep (when the look has a sleeping clip, else resting).
+        rd != null && rd.sleptByTimer && !rd.playing ->
+            if (ui.companion.hasClip(Companions.STATE_SLEEPING)) Companions.STATE_SLEEPING else Companions.STATE_IDLE
+        // 1.0.2: the last ~2 minutes of the bedtime timer: calm (resting clip) while the voice winds down.
+        rd?.playing == true && rd.sleepAt != null && rd.sleepAt - now <= BEDTIME_CALM_MS -> Companions.STATE_IDLE
         // 1.0: reading a book aloud uses the talking clip.
-        ui.reading?.playing == true -> Companions.STATE_SPEAKING
+        rd?.playing == true -> Companions.STATE_SPEAKING
         ui.transcribing -> Companions.STATE_THINKING
         ui.generating && (last == null || last.isUser || last.text.isEmpty()) -> Companions.STATE_THINKING
         ui.generating -> Companions.STATE_SPEAKING
@@ -57,7 +64,11 @@ fun avatarState(ui: UiState): String {
  */
 @Composable
 fun rememberAvatarState(ui: UiState): String {
-    val base = avatarState(ui)
+    // 1.0.2: ticks while a bedtime timer runs, so the calm-down at the end happens on time.
+    val sleepAt = ui.reading?.sleepAt
+    var now by remember { mutableLongStateOf(System.currentTimeMillis()) }
+    LaunchedEffect(sleepAt) { while (sleepAt != null) { now = System.currentTimeMillis(); kotlinx.coroutines.delay(5_000) } }
+    val base = avatarState(ui, now)
     val canSleep = ui.companion.hasClip(Companions.STATE_SLEEPING)
     var asleep by remember { mutableStateOf(false) }
     LaunchedEffect(base, canSleep, ui.messages.size, ui.companionId) {
@@ -68,6 +79,8 @@ fun rememberAvatarState(ui: UiState): String {
 }
 
 const val SLEEP_AFTER_MS = 90_000L
+/** 1.0.2: how long before the bedtime timer ends the companion stops "talking" and rests. */
+const val BEDTIME_CALM_MS = 120_000L
 
 @Composable
 fun rememberAssetBitmap(path: String): ImageBitmap? {

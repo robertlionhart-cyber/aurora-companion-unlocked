@@ -65,6 +65,8 @@ object ReadAloud {
         val sleepEndOfChapter: Boolean = false,
         val finished: Boolean = false,
         val error: String? = null,
+        /** 1.0.2: the bedtime timer just ended the reading (the companion shows its sleeping clip until you go on). */
+        val sleptByTimer: Boolean = false,
     ) {
         val chapterTitle get() = chapterTitles.getOrNull(chapter) ?: ""
         val sleepOn get() = sleepAt != null || sleepEndOfChapter
@@ -89,6 +91,9 @@ object ReadAloud {
     @Volatile private var paused = true
     private var job: Job? = null
     private var sleepJob: Job? = null
+
+    /** 1.0.2: the companion's picture for the lock-screen / notification media controls (set by the view model). */
+    @Volatile var artwork: android.graphics.Bitmap? = null
     private var track: AudioTrack? = null
     private var loadJob: Job? = null
 
@@ -152,7 +157,7 @@ object ReadAloud {
         if (!requestFocus()) { _state.update { it?.copy(error = "Another app is using audio right now.") }; return }
         registerNoisy()
         paused = false
-        _state.update { it?.copy(playing = true, finished = false, error = null) }
+        _state.update { it?.copy(playing = true, finished = false, error = null, sleptByTimer = false) }
         ReadAloudService.start(app!!)
         if (job?.isActive == true) { track?.play(); return }
         startPipeline(idx.get())
@@ -249,7 +254,7 @@ object ReadAloud {
     private suspend fun fadeAndPause() {
         val t = track
         if (t != null && isPlaying) for (k in 10 downTo 1) { runCatching { t.setVolume(k / 10f) }; delay(150) }
-        withContext(Dispatchers.Main) { pause(); cancelSleep() }
+        withContext(Dispatchers.Main) { pause(); cancelSleep(); _state.update { it?.copy(sleptByTimer = true) } }
         runCatching { track?.setVolume(1f) }
     }
 
@@ -309,7 +314,7 @@ object ReadAloud {
                         BookText.chapterAt(chapters, s.starts[c.i]) != startChapter) {
                         idx.set(c.i); publish(); savePos(b.file, s.starts[c.i])
                         drain(g)
-                        withContext(Dispatchers.Main) { if (g == gen.get()) { pause(); cancelSleep() } }
+                        withContext(Dispatchers.Main) { if (g == gen.get()) { pause(); cancelSleep(); _state.update { it?.copy(sleptByTimer = true) } } }
                         break
                     }
                     idx.set(c.i)

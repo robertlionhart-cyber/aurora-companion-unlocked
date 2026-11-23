@@ -87,6 +87,7 @@ class ReadAloudService : Service() {
             .putString(MediaMetadata.METADATA_KEY_TITLE, s.title)
             .putString(MediaMetadata.METADATA_KEY_ARTIST, s.author)
             .putString(MediaMetadata.METADATA_KEY_ALBUM, s.chapterTitle)
+            .apply { ReadAloud.artwork?.let { putBitmap(MediaMetadata.METADATA_KEY_ART, it); putBitmap(MediaMetadata.METADATA_KEY_ALBUM_ART, it) } }
             .build())
         ses.setPlaybackState(PlaybackState.Builder()
             .setActions(PlaybackState.ACTION_PLAY or PlaybackState.ACTION_PAUSE or PlaybackState.ACTION_PLAY_PAUSE or
@@ -101,6 +102,7 @@ class ReadAloudService : Service() {
             .setContentText(listOf(s.chapterTitle, if (s.sleepOn) "\u23F2 timer on" else "").filter { it.isNotBlank() }.joinToString("  \u00B7  ").ifBlank { s.author })
             .setSubText(if (s.playing) "Reading aloud" else "Paused")
             .setContentIntent(openApp())
+            .apply { ReadAloud.artwork?.let { setLargeIcon(it) } }
             .setDeleteIntent(action(ACTION_QUIT, 5))
             .setOngoing(s.playing)
             .setOnlyAlertOnce(true)

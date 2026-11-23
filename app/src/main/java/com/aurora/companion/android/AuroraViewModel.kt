@@ -63,6 +63,8 @@ data class UiState(
     val autoSpeak: Boolean = true,
     /** 1.0.1: Leo meows / Barry woofs before talking (Settings > Voice). */
     val animalSounds: Boolean = true,
+    /** 1.0.2: the book player on the chat screen is shrunk to the small bar (chat input shown again). */
+    val readerMinimized: Boolean = false,
     val listening: Boolean = false,
     /** Tap-to-talk: recording keeps going until the mic is tapped again. */
     val listenLatched: Boolean = false,
@@ -1339,6 +1341,7 @@ class AuroraViewModel(app: Application) : AndroidViewModel(app) {
         prefs.edit().putString("companion_id", c.id).apply()
         _ui.update { it.copy(companionId = c.id, companionChosen = true, memoryNotes = emptyList(), mode = modeFor(c.id), emotion = null) }
         if (!changed) return false
+        if (ReadAloud.state.value != null) ReadAloud.artwork = companionArt(c)   // 1.0.2: lock-screen picture follows the companion
         if (_ui.value.inCall) endCall()
         stopSpeaking()
         // Per-companion voice (Robert's voice unless changed in Settings while this companion is selected).
@@ -1591,10 +1594,33 @@ class AuroraViewModel(app: Application) : AndroidViewModel(app) {
 
     // ---------- 1.0: read aloud ----------
     /** "Read this to me": opens the player on [book] (from [fromPos] if given, else where listening stopped). */
-    fun readAloud(book: BookInfo, fromPos: Int? = null) {
-        if (!voice.ttsReady) { _ui.update { it.copy(error = "The voice is still loading. Try again in a few seconds.") }; return }
+    fun readAloud(book: BookInfo, fromPos: Int? = null): Boolean {
+        if (!voice.ttsReady) { _ui.update { it.copy(error = "The voice is still loading. Try again in a few seconds.") }; return false }
+        ReadAloud.artwork = companionArt(_ui.value.companion)
+        _ui.update { it.copy(readerMinimized = false) }
         ReadAloud.open(book, fromPos, autoplay = true)
+        return true
     }
+
+    /** 1.0.2: shrink / grow the book player on the chat screen. */
+    fun setReaderMinimized(on: Boolean) = _ui.update { it.copy(readerMinimized = on) }
+
+    /** 1.0.2: Close on the chat-screen book player: stops reading (the place in the book is kept) and goes back to chat. */
+    fun closeReader() {
+        ReadAloud.stop()
+        _ui.update { it.copy(readerMinimized = false) }
+    }
+
+    /** 1.0.2: the companion's still picture, scaled for the lock-screen media controls (null if it can't be read). */
+    private fun companionArt(c: CompanionProfile): android.graphics.Bitmap? = runCatching {
+        val path = c.still()
+        val raw = if (path.startsWith("/")) android.graphics.BitmapFactory.decodeFile(path)
+            else getApplication<Application>().assets.open(path).use { android.graphics.BitmapFactory.decodeStream(it) }
+        raw?.let { b ->
+            val scale = minOf(1f, 512f / maxOf(b.width, b.height))
+            if (scale < 1f) android.graphics.Bitmap.createScaledBitmap(b, (b.width * scale).toInt(), (b.height * scale).toInt(), true) else b
+        }
+    }.onFailure { Log.w(TAG, "companion picture for media controls failed", it) }.getOrNull()
 
     fun listenPos(file: String) = ReadAloud.savedPos(getApplication(), file)
 

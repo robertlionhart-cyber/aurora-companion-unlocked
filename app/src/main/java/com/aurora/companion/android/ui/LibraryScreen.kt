@@ -177,7 +177,8 @@ fun LibraryScreen(ui: UiState, vm: AuroraViewModel, sizing: Sizing, onClose: () 
                             if (have) FlowRow(Modifier.padding(top = 6.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(4.dp),
                                 itemVerticalAlignment = Alignment.CenterVertically) {
                                 // 1.0: "Read this to me" - the companion reads it aloud (continues where listening stopped).
-                                Button(onClick = { vm.readAloud(b) }, enabled = ui.voiceReady && !playingThis, contentPadding = PaddingValues(horizontal = 14.dp, vertical = 6.dp)) {
+                                // 1.0.2: reading happens on the chat screen (big avatar + book controls), so the Library closes.
+                                Button(onClick = { if (vm.readAloud(b)) onClose() }, enabled = ui.voiceReady && !playingThis, contentPadding = PaddingValues(horizontal = 14.dp, vertical = 6.dp)) {
                                     Text(if (playingThis) "\uD83D\uDD0A Reading..." else if (vm.listenPos(b.file) > 0) "\uD83D\uDD0A Continue reading to me" else "\uD83D\uDD0A Read this to me", fontSize = 14.sp)
                                 }
                                 OutlinedButton(onClick = { reading = ReaderTarget(b, null) }, contentPadding = PaddingValues(horizontal = 14.dp, vertical = 6.dp)) { Text("\uD83D\uDCD6 Read myself", fontSize = 14.sp) }
@@ -187,7 +188,7 @@ fun LibraryScreen(ui: UiState, vm: AuroraViewModel, sizing: Sizing, onClose: () 
                     }
                 }
             } else if (tab == 1) {
-                item { FindBook(ui, vm, findQuery, onQuery = { findQuery = it }, onRead = { b -> vm.readAloud(b) }) }
+                item { FindBook(ui, vm, findQuery, onQuery = { findQuery = it }, onRead = { b -> if (vm.readAloud(b)) onClose() }) }
             } else {
                 val doSearch: () -> Unit = {
                     if (query.isNotBlank()) { searching = true; scope.launch { results = vm.searchBooks(query); searching = false } }

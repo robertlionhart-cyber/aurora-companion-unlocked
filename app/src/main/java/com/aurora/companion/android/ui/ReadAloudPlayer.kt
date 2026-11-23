@@ -38,7 +38,14 @@ private val PlayerBg = Color(0xE6101418)
  * chapter progress, speed, the bedtime (sleep) timer and Close. [compact] is the slimmer version over the chat.
  */
 @Composable
-fun ReadAloudPlayer(st: ReadAloud.State, compact: Boolean, modifier: Modifier = Modifier) {
+fun ReadAloudPlayer(
+    st: ReadAloud.State, compact: Boolean, modifier: Modifier = Modifier,
+    /** 1.0.2: Close (default: stop reading; the place in the book is kept). */
+    onClose: () -> Unit = { ReadAloud.stop() },
+    /** 1.0.2: chat screen only - shrink the big player to the small bar / grow it back. */
+    onMinimize: (() -> Unit)? = null,
+    onExpand: (() -> Unit)? = null,
+) {
     var showChapters by remember { mutableStateOf(false) }
     var sleepMenu by remember { mutableStateOf(false) }
     var speedMenu by remember { mutableStateOf(false) }
@@ -61,7 +68,13 @@ fun ReadAloudPlayer(st: ReadAloud.State, compact: Boolean, modifier: Modifier = 
                 }
                 Text(sub, fontSize = 12.sp, color = if (st.error != null) Color(0xFFFF8A80) else AuroraTeal, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
-            TextButton(onClick = { ReadAloud.stop() }, contentPadding = PaddingValues(horizontal = 10.dp)) { Text("Close", fontSize = 14.sp) }
+            if (onExpand != null) TextButton(onClick = onExpand, contentPadding = PaddingValues(horizontal = 8.dp),
+                modifier = Modifier.semantics { contentDescription = "Show the book controls" }) { Text("\u25B2", fontSize = 18.sp) }
+            if (onMinimize != null) TextButton(onClick = onMinimize, contentPadding = PaddingValues(horizontal = 8.dp),
+                modifier = Modifier.semantics { contentDescription = "Make the book controls smaller" }) { Text("\u25BC", fontSize = 18.sp) }
+            TextButton(onClick = onClose, contentPadding = PaddingValues(horizontal = 10.dp)) {
+                Text(if (onMinimize != null) "\u2715 Close" else "Close", fontSize = if (onMinimize != null) 16.sp else 14.sp)
+            }
         }
         if (!compact && st.current.isNotBlank() && !st.loading) {
             Text(st.current, fontFamily = FontFamily.Serif, fontSize = 17.sp, lineHeight = 24.sp, color = Color(0xFFE8E4DA),
